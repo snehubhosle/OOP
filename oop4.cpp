@@ -1,132 +1,146 @@
 #include <iostream>
-#include <string>
+#include <cmath> 
 using namespace std;
-int max,i,ele;
-class Queue {
-    int front = -1, rear = -1;
-
-public:
-    int max;
-    int Q[100];
-    void check();
+int n;
+class student
+{
+    public:
+    int rno;
+    string name,prn,branch;
+    void basic_details();
     void display();
-    void dequeue();
-    void enqueue();
-    void peak();
-}q;
+};
 
-void Queue::display() {
-    if (front == -1) 
+void student::basic_details()
+{
+    cout<<"Enter Name and Department: ";
+    cin>>name>>branch;
+    cout<<"Enter Roll No and Prn:";
+    cin>>rno>>prn;
+}
+
+void student::display()
+{
+    cout<<"Name"<<"\t"<<"Department"<<"\t"<<"Roll No"<<"\t"<<"PRN NO"<<endl;
+    cout<<name<<branch<<rno<<prn;
+}
+
+class test: virtual public student
+{
+    public:
+    string sub[5];
+    int C1[5],C2[5],C3[5],end[5];
+    void accept_marks();
+    void display();
+};
+
+void test::accept_marks()
+{
+    for(int i=0;i<5;i++)
     {
-        cout << "Queue is empty" << endl;
-    } else 
-    {
-        cout << "Queue elements are: " << endl;
-        for (int i = front; i <= rear; i++) 
-        {
-            cout << Q[i] << " ";
-        }
-        cout << endl;
+    cout<<"Enter the  subject name :";
+    cin>>sub[i];
+    cout<<"Enter CIA-1 marks: ";
+    cin>>C1[i];
+    cout<<"Enter CIA-2 marks:";
+    cin>>C2[i];
+    cout<<"Enter CIA-3 marks:";
+    cin>>C3[i];
+    cout<<"Enter the End-Sem examination marks:";
+    cin>>end[i];
     }
 }
 
-void Queue::check() {
-    if (front == -1 || rear == -1)
+void test::display()
+{
+     for(int i=0;i<5;i++)
      {
-        cout << "Queue is empty" << endl;
-    }
-     else  
-     {
-        cout << "Queue is full" << endl;
-     } 
-    
-}
-
-void Queue::dequeue()
- {
-    if (rear == -1 || front == -1) 
-    {
-        cout << "Queue is underflow" << endl;
-    }
-     else
-      {
-        cout << "Dequeue element is: " << Q[front] << endl;
-        front++;
-    }
-}
-
-void Queue::enqueue()
- {
-    if (rear == max - 1)
-     {
-        cout << "Queue is overflow...!!" << endl;
-     } 
-    else
-     { 
-        for(i=0;i < max; i++)
-        {
-        int ele;
-        cout << "Enter element to enqueue: ";
-        cin >> ele; 
-        rear++;
-        Q[rear] = ele;
-        }
-        front=0;
+        cout<<"Subject"<<"\t"<<"CIA-1 Marks"<<"\t"<<"CIA-2"<<"\t"<<"CIA-3"<<"\t"<<"End-Sem Marks";
+         cout<<"\n"<<sub[i]<<"\t"<<C1[i]<<"\t"<<C2[i]<<"\t"<<C3<<"\t"<<"\t"<<end[i];
      }
 }
 
-void Queue::peak() 
+class sport: virtual public student{
+    public:
+    string sport;
+    int S_marks;
+    void accept_sport();
+    void display();
+};
+
+void sport::accept_sport()
 {
-    if (rear == -1 || front == -1)
-     {
-        cout << "No element found at top, Queue is empty" << endl;
+    cout<<"Enter the Sport name:";
+    cin>>sport;
+    cout<<"Enter the marks of Sport:";
+    cin>>S_marks;
+}
+
+void sport::display()
+{
+    cout<<"Sport name"<<"\t"<<"\t"<<"marks";
+    cout<<sport<<S_marks;
+}
+
+class result:public test, public sport
+{
+    public:
+    int tot[5],C[5],C_tot[5];
+    int overall=0;
+    int per;
+    void percent();
+    void total();
+    void display_all();
+   
+}a[100];
+
+void  result::total()
+{
+    for(int i=0;i<5;i++)
+    {
+        C[i]= C1[i]+C2[i]+C3[i] ;
+        C_tot[i]=C[i]/1.5;
+        tot[i]=C_tot[i]+end[i];
+        overall+=tot[i];
     }
-     else
-     {
-        cout << "Top element is: " << Q[front] << endl; 
+    overall+=S_marks;
+}
+
+void result::percent()
+ {
+    for(int i=0;i<5;i++)
+    {
+     per=(float(overall)/600)*100;
     }
 }
 
-int main()
- {
-
-  
-    int ch;
-    do
-     {
-        cout << "Enter choice: "<<endl;
-        cout << "1. Check if queue is empty or not" << endl;
-        cout << "2. Display Queue elements" << endl;
-        cout << "3. Enqueue the elements" << endl;
-        cout << "4. Dequeue the elements" << endl;
-        cout << "5. Display peak value" << endl;
-        cin >> ch;
-
-        switch (ch)
-         {
-            case 1:
-                q.check();
-                break;
-            case 2:
-                q.display();
-                break;
-            case 3:
-            
-        cout << "Enter the size of queue: ";
-        cin >> q.max;
-                q.enqueue(); 
-                break;
-            case 4:
-                q.dequeue();
-                break;
-            case 5:
-                q.peak();
-                break;
-            default:
-                cout << "Invalid choice" << endl;
-                break;
+void result::display_all()
+    {
+        cout<<"Name"<<"\t"<<"Branch"<<"\t"<<"PRN no"<<"\t"<<"Roll No\n";
+        cout<<name<<"t"<<branch<<"\t"<<rno<<"\t"<<prn<<"\n";
+        cout<<"Subject"<<"\t"<<"CIA-1 Marks"<<"\t"<<"CIA-2"<<"\t"<<"CIA-3"<<"\t"<<"End-Sem Marks"<<"\t"<<"Total\n";
+        for(int i=0;i<5;i++)
+        {
+            cout<<sub[i]<<"\t"<<C1[i]<<"\t"<<C2[i]<<"\t"<<C3[i]<<"\t"<<end[i]<<"\t"<<tot[i]<<"\t"<<"\n";
         }
-    } while (ch != 5); 
+        cout<<sport<<"\t"<<"0"<<"\t"<<"0"<<"\t"<<"0"<<"\t"<<S_marks<<"\t"<<S_marks<<"\n";
+        cout<<"Total percentage is"<<per<<"%";
+    }
 
+
+int main()
+{
+    cout<<"Enter the number of students record you want to store:";
+    cin>>n;
+    for(int i=0;i<n;i++)
+    {
+        cout<<"enter the"<<n<<"number student record:"<<endl;
+        a[i].basic_details();
+        a[i].accept_marks();
+        a[i].accept_sport();
+        a[i].total();
+        a[i].percent();
+        a[i].display_all();
+    }
     return 0;
 }
